@@ -80,8 +80,8 @@ image(x=1:nrow(dataNLTCS$pivsB), y=1:nrow(dataNLTCS$pivsA), z=t(as.matrix(Delta)
 title(main = c("True linkage matrix", "underlying the data"), font.main = 4)
 dev.off()
 
-source("recordlinkage_new.r")
-Rcpp:::sourceCpp("functions_new.cpp")
+source("recordlinkage.r")
+Rcpp:::sourceCpp("functions.cpp")
 
 # A SONG WILL START AT THE END SO YOU CAN DO SOMETHING ELSE WHILE WAITING
 start = Sys.time()
