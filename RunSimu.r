@@ -181,10 +181,10 @@ title(main = c("True linkage matrix", "underlying the data", sprintf("%s linked 
 image(x=1:nrow(dataSimu$pivsB), y=1:nrow(dataSimu$pivsA), z=t(as.matrix(fit$Delta)), xlab="obs. in B", ylab="obs. in A")
 if(any(!dataSimu$pivs_stable)){
   # at least 1 PIV is considered unstable
-  title(main = c("Estimated linkage matrix fitting the data","taking into account unstability in PIVs", sprintf("%s linked record pairs (proba>.5)", sum(fit$Delta>0.5))), font.main = 4)
+  title(main = c("Estimated linkage matrix fitting the data","taking into account unstability in PIVs", sprintf("%s linked record pairs (proba > .5)", sum(fit$Delta>0.5))), font.main = 4)
 }else{
   # all PIVs are considered stable
-  title(main = c("Estimated linkage matrix fitting the data","not taking into account", "unstability in PIVs", sprintf("%s linked record pairs (proba>.5)", sum(fit$Delta>0.5))), font.main = 4)
+  title(main = c("Estimated linkage matrix fitting the data","not taking into account", "unstability in PIVs", sprintf("%s linked record pairs (proba > .5)", sum(fit$Delta>0.5))), font.main = 4)
 }
 
 par(mfrow=c(1,1))
@@ -240,8 +240,6 @@ for(k in 1:length(phi))
 }
 
 # Confusion matrix
-Delta = t(Delta)
-DeltaSize = nrow(A)*nrow(B)
 FPR_list = c()
 TPR_list = c()
 for(t in seq(0, 1.1, by=0.1)){
@@ -264,10 +262,10 @@ FPR = FP / (FP + TN)
 TPR = TP / (TP + FN)
 par(mfrow=c(1,2))
 plot(FPR_list, TPR_list, xlim=c(0,1), ylim=c(0,1))
-title(sprintf("AUC: %s, FPR: %s, TPR: %s", round(auc(Delta, fit$Delta),2), round(FPR,2), round(TPR,2)))
+title(sprintf("AUC: %s", round(auc(Delta, fit$Delta),2)))
 lines(c(0,1), c(0,1))
 plot(FPR_list, TPR_list, xlim=c(0,0.002), ylim=c(0,1))
-title(sprintf("TP: %s, FP: %s, FN: %s", TP, FP, FN))
+title(c(sprintf("TP: %s, FP: %s, FN: %s", TP, FP, FN), sprintf("FPR: %s, TPR: %s", round(FPR,2), round(TPR,2)), "(for proba = .5)"))
 lines(c(0,1), c(0,1))
 
 # Agreements

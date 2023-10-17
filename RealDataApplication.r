@@ -96,8 +96,7 @@ for (lr in 1:Nlinks)
 image(x=1:nrow(dataNLTCS$pivsB), y=1:nrow(dataNLTCS$pivsA), z=t(as.matrix(Delta)), xlab="obs. in B", ylab="obs. in A")
 title(main = c("True linkage matrix", "underlying the data", sprintf("%s linked record pairs", sum(Delta))), font.main = 4)
 image(x=1:nrow(dataNLTCS$pivsB), y=1:nrow(dataNLTCS$pivsA), z=t(as.matrix(fit$Delta)), xlab="obs. in B", ylab="obs. in A")
-title(main = c("Estimated linkage matrix fitting the data","taking into account unstability in PIVs", sprintf("%s linked record pairs (proba>.5)", sum(fit$Delta>0.5))), font.main = 4)
-
+title(main = c("Estimated linkage matrix fitting the data","taking into account unstability in PIVs", sprintf("%s linked record pairs (proba > .5)", sum(fit$Delta>0.5))), font.main = 4)
 
 par(mfrow=c(1,1))
 # gamma
@@ -125,7 +124,7 @@ par(mfrow=c(2,3))
 omega = fit$omega
 for(k in 1:length(omega))
 {
-  if(!dataSimu$pivs_stable[k]){
+  if(!dataNLTCS$pivs_stable[k]){
     vec = c("time difference")
     plot(omega[[k]][,1], ylim=c(min(omega[[k]])-0.5, max(omega[[k]])+0.5), type="l", col=1, xlab = "MC-EM Iterations", ylab = sprintf("Survival model coef. for unstable PIV %s", pivs[k]))
     if(ncol(omega[[k]])>=2){
@@ -152,8 +151,6 @@ for(k in 1:length(phi))
 }
 
 # Confusion matrix
-Delta = t(Delta)
-DeltaSize = nrow(A)*nrow(B)
 FPR_list = c()
 TPR_list = c()
 for(t in seq(0, 1.1, by=0.1)){
@@ -176,10 +173,10 @@ FPR = FP / (FP + TN)
 TPR = TP / (TP + FN)
 par(mfrow=c(1,2))
 plot(FPR_list, TPR_list, xlim=c(0,1), ylim=c(0,1))
-title(sprintf("AUC: %s, FPR: %s, TPR: %s", round(auc(Delta, fit$Delta),2), round(FPR,2), round(TPR,2)))
+title(sprintf("AUC: %s", round(auc(Delta, fit$Delta),2)))
 lines(c(0,1), c(0,1))
 plot(FPR_list, TPR_list, xlim=c(0,0.002), ylim=c(0,1))
-title(sprintf("TP: %s, FP: %s, FN: %s", TP, FP, FN))
+title(c(sprintf("TP: %s, FP: %s, FN: %s", TP, FP, FN), sprintf("FPR: %s, TPR: %s", round(FPR,2), round(TPR,2)), "(for proba = .5)"))
 lines(c(0,1), c(0,1))
 
 # Agreements

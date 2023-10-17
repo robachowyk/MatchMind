@@ -220,7 +220,7 @@ stEM = function(data, nIter, nBurnin, MStepIter, trace=1)
     
     for(j in 1:MStepIter)
     {
-      newTruePivs = simulateHchronoCPP(data=data, D=D, links=links, omegaData=omegaData, sumRowD=sumRowD, sumColD=sumColD, eta=eta, omega=omega, phi=phi)
+      newTruePivs = simulateH(data=data, D=D, links=links, omegaData=omegaData, sumRowD=sumRowD, sumColD=sumColD, eta=eta, omega=omega, phi=phi)
       truepivsA = newTruePivs$truepivsA
       truepivsB = newTruePivs$truepivsB
       Dsample = simulateD(data=data, D=D, links=links+1, sumRowD=sumRowD, sumColD=sumColD, truepivsA=truepivsA, truepivsB=truepivsB, gamma=gamma, eta=eta, omega=omega, phi=phi)
